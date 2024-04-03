@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">
+  Welcome, {{ email }}!
+</h1>
+<table class="table">
+  <thead>
+      <tr>
+          {% for col in header %}
+          <th scope="col">{{ col }}</th>
+          {% endfor %}
+          {% if not read_only %}
+          <th><a href="add">➕</a></th>
+          {% endif %}
+      </tr>
+  </thead>
+  
+  <tr>
+  {% for row in rows %}
+        <td>
+            {{ row }}
+        </td>
+    {% if not read_only %}
+      {% endif %}
+  
+  {% endfor %}
+    </tr>
+</table>
+
+<script>
+  function remove(id) {
+      if (confirm('Подтвердите удаление строки ' + id)) {
+          let xhr = new XMLHttpRequest();
+          xhr.open('DELETE', id, false);
+          xhr.send()
+          if (xhr.status == 200) {
+              window.location.reload(false);
+          } else {
+              alert('Произошла ошибка\n' + xhr.responseText);
+          }
+      }
+  }
+</script>
+  
+{% endblock %}

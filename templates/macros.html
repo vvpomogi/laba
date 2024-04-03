@@ -1,0 +1,9 @@
+{% macro flashed_message() %}
+
+    {% with messages = get_flashed_messages() %}
+        {% for message in messages %}
+            {{ message|safe }}
+        {% endfor %}
+    {% endwith %}
+
+{% endmacro %}

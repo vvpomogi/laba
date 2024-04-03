@@ -1,0 +1,31 @@
+version: '3.11'
+services:
+  greenhouse:
+    container_name: Greenhouse2-Main
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+    command: python app.py
+
+
+  db:
+    container_name: Greenhouse2-db
+    image: postgres:16.0-alpine
+    volumes:
+      - ./pg-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="field has-text-centered">{{ flashed_message() }}</div>
+<div class="section level-item has-text-right">
+<table class="table box">
+    <thead>
+        <tr>
+            {% for col in header %}
+            <th scope="col">{{ col }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    {% for row in rows %}
+    <tr>
+        {% if not func %}
+            {% for cell in row %}
+            <td>
+                {{ cell }}
+            </td>
+            {% endfor %}
+        {% else %}
+            {% for cell in func(row) %}
+            <td>
+                {{ cell }}
+            </td>
+            {% endfor %}
+        {% endif %}
+        {% if not read_only %}
+        <td>
+            <a href="{{ row[0] }}" >📝</a>
+        </td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+</table>
+</div>
+{% endblock %}

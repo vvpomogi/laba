@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="columns">
+<div class="column is-4">
+    <h3 class="title">Настройки <a href="" >🔄</a></h3>
+    <div class="box level-item has-text-right">
+        <form method="POST">
+            <div class="field has-text-centered">{{ flashed_message() }}</div>
+            {% if 'csrf_token' in form %}
+                {{form.csrf_token}}
+            {% endif %}
+            {% for field in form %}
+                {% if field.type == "SubmitField" %}
+                    {{ field(class_="button is-block is-info is-fullwidth") }}
+                {% elif field.type not in ("HiddenField", "CSRFTokenField") %}
+                    <div class="form-group field">
+
+                        <label>{{ field.label }}</label>
+                        {% if field.type == "IntegerRangeField" %}
+                            {{ field(min=0, max=100, oninput="outputUpdate(value,{{field}})") }}
+                            {% set idselected = 'selected-' + field.type %}
+                            <output for={{field.type}} id={{field.label.text}}>
+                            {{field.data}}
+                            </output>
+                        {% else %}
+                            {{ field(class_="form-control") }}
+                        {% endif %}
+                        {% if field.errors %}
+                        <ul class="list-inline">
+                            {% for error in field.errors%}
+                            <li><mark>{{ error }}</mark></li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+
+                    </div>
+                {% endif %}
+
+            {% endfor %}
+        </form>
+    </div>    
+</div>
+
+<div class="column box">
+    <div id="chart" class="chart"></div>
+    <script type="text/javascript">
+      var graphs = {{graphJSON | safe}};
+      Plotly.newPlot('chart',graphs,{})
+    </script>
+    </div>
+</div>
+{% endblock %}
