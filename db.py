@@ -44,7 +44,7 @@ class Controller(BaseModel):
     id = pw.UUIDField(primary_key=True)
     user = pw.ForeignKeyField(User, null=False)
     goods = pw.ForeignKeyField(Goods, null=False)
-    group = pw.ForeignKeyField(Group, null=True, default=None)
+    group = pw.ForeignKeyField(Group, null=True, default=None, on_delete='SET NULL')
     settings = pw.TextField()
 
 
