@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="column is-4 is-offset-4">
-    <h3 class="title">Login</h3>
-    <div class="box">
-        {{ flashed_message() }}
-        <!--
+    <div class="column is-4 is-offset-4">
+        <h3 class="title">Login</h3>
+        <div class="box">
+            {{ flashed_message() }}
+            <!--
         {% with messages = get_flashed_messages() %}
         {% if messages %}
             <div class="notification is-danger">
@@ -14,26 +14,26 @@
         {% endif %}
         {% endwith %}
         -->
-        <form method="POST" action="/login">
-            <div class="field">
-                <div class="control">
-                    <input class="input is-large" type="email" name="email" placeholder="Почта" autofocus="">
+            <form method="POST" action="/login">
+                <div class="field">
+                    <div class="control">
+                        <input class="input is-large" type="email" name="email" placeholder="Почта" autofocus="">
+                    </div>
                 </div>
-            </div>
 
-            <div class="field">
-                <div class="control">
-                    <input class="input is-large" type="password" name="password" placeholder="Пароль">
+                <div class="field">
+                    <div class="control">
+                        <input class="input is-large" type="password" name="password" placeholder="Пароль">
+                    </div>
                 </div>
-            </div>
-            <div class="field">
-                <label class="checkbox">
-                    <input type="checkbox">
-                    Запомнить пароль
-                </label>
-            </div>
-            <button class="button is-block is-info is-large is-fullwidth">Login</button>
-        </form>
+                <div class="field">
+                    <label class="checkbox">
+                        <input type="checkbox">
+                        Запомнить пароль
+                    </label>
+                </div>
+                <button class="button is-block is-info is-large is-fullwidth">Login</button>
+            </form>
+        </div>
     </div>
-</div>
 {% endblock %}
