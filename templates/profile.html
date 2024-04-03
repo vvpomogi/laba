@@ -2,166 +2,158 @@
 
 {% block content %}
 
-<div class="field has-text-centered">{{ flashed_message() }}</div>
-<h1 class="title">
-  Здравствуйте, {{ email }}!
-</h1>
-<div class="columns">
-  <div class="column is-half">
+    <div class="field has-text-centered">{{ flashed_message() }}</div>
+    <h1 class="title">
+        Здравствуйте, {{ email }}!
+    </h1>
+    <div class="columns">
+        <div class="column is-half">
+            <form action="" method="post">
+                <div class="columns">
+                    <div class="column">
+                        <input class="input is-large" type="text" name="grouped" placeholder="Название группы"
+                               autofocus="" size="40">
+                    </div>
+                    <div class="column is-narrow">
+                        <button type="submit" class="button is-block is-info is-large">Добавить группу</button>
+                    </div>
+                </div>
+                <table class="table box">
+                    <thead>
+                    <tr>
+                        {% for col in header %}
+                            <th scope="col">{{ col }}</th>
+                        {% endfor %}
+                        {% if not read_only %}
+                            <th><a href="../shop">➕</a></th>
+                        {% endif %}
+                    </tr>
+                    </thead>
+                    {% for row in rows %}
+                        <tr>
+                            {% if not func %}
+                                {% for cell in row %}
+                                    <td>
+                                        {% if row[0]==cell %}
+                                            <label class="checkbox"><input type="checkbox" name="formDoor[]"
+                                                                           value={{ row[0] }}></label>
+                                            <label>{{ row[0] }}</label>
+                                        {% else %}
+                                            {{ cell }}
+                                        {% endif %}
+                                    </td>
+                                {% endfor %}
+                            {% else %}
+                                {% for cell in func(row) %}
+                                    <td>
+                                        {{ cell }}
+                                    </td>
+                                {% endfor %}
+                            {% endif %}
+                            {% if not read_only %}
+                                <td>
+                                    <a href="{{ row[0] }}">📝</a>
+                                </td>
+                                <td>
+                                    <a href="#" onclick="remove('{{ row[0] }}')">❌</a>
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </table>
+            </form>
+        </div>
 
-    <form action="" method="post">  
-      <div class="columns">
-        <div class="column">
-        <input class="input is-large" type="text" name="grouped" placeholder="Название группы" autofocus="" size="40">
-      </div>
-      <div class="column is-narrow">
-        <button type="submit" class="button is-block is-info is-large">Добавить группу</button>
-      </div>
-      </div>
-
-        <table class="table box">
-            <thead>
+        <div class="column is-half">
+            <div class="columns">
+                <div class="column">
+                    <div class="select block is-large is-fullwidth">
+                        <form method="GET" action="">
+                            <label>
+                                <select onchange="this.form.submit()" name="selected_group">
+                                    <option label=" "></option>
+                                    {% for group_name in group_names %}
+                                        {% if selected_group[1] == group_name %}
+                                            <option selected="selected">{{ group_name }}</option>
+                                        {% else %}
+                                            <option>{{ group_name }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </label>
+                        </form>
+                    </div>
+                </div>
+                <div class="column is-narrow">
+                    <button onclick="remove_group('{{ selected_group[0] }}', '{{ selected_group[1] }}')"
+                            type="submit" class="button is-block is-danger is-large">Удалить
+                    </button>
+                </div>
+            </div>
+            <table class="table box">
+                <thead>
                 <tr>
                     {% for col in header %}
-                    <th scope="col">{{ col }}</th>
+                        <th scope="col">{{ col }}</th>
                     {% endfor %}
-                    {% if not read_only %}
-                    <th><a href="../shop">➕</a></th>
-                    {% endif %}
                 </tr>
-            </thead>
-            {% for row in rows %}
-            <tr>
-              {% if not func %}
-                  {% for cell in row %}
-                  <td>
-                      {% if row[0]==cell %}
-                      <label class="checkbox"><input type="checkbox" name ="formDoor[]" value={{row[0]}}></label>
-                      <label>{{row[0]}}</label>
-                      {% else %} 
-                      {{ cell }}
-                      {% endif %}
-                  </td>
-                  {% endfor %}
-              {% else %}
-                  {% for cell in func(row) %}
-                  <td>
-                      {{ cell }}
-                  </td>
-                  {% endfor %}
-              {% endif %}
-              {% if not read_only %}
-              <td>
-                  <a href="{{ row[0] }}">📝</a>
-              </td>
-              <td>
-                  <a href="#" onclick="remove('{{ row[0] }}')">❌</a>
-              </td>
-
-            </td>
-                {% endif %}
-            </tr>
-            {% endfor %}
-          </table>
-          
-          <script>
-            function remove(id) {
-                if (confirm('Подтвердите удаление датчика ' + id)) {
-                    let xhr = new XMLHttpRequest();
-                    xhr.open('DELETE', id, false);
-                    xhr.send()
-                    if (xhr.status == 200) {
-                        window.location.reload(false);
-                    } else {
-                        alert('Произошла ошибка\n' + xhr.responseText);
-                    }
+                </thead>
+                {% for row in rows1 %}
+                    <tr>
+                        {% if not func %}
+                            {% for cell in row %}
+                                <td>
+                                    {% if row[0]==cell %}
+                                        <label>{{ row[0] }}</label>
+                                    {% else %}
+                                        {{ cell }}
+                                    {% endif %}
+                                </td>
+                            {% endfor %}
+                        {% else %}
+                            {% for cell in func(row) %}
+                                <td>
+                                    {{ cell }}
+                                </td>
+                            {% endfor %}
+                        {% endif %}
+                        {% if not read_only %}
+                            <td>
+                                <a href="{{ row[0] }}">📝</a>
+                            </td>
+                            <td>
+                                <a href="#" onclick="remove('{{ row[0] }}')">❌</a>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <script>
+        function remove(id) {
+            if (confirm('Подтвердите удаление датчика ' + id)) {
+                let xhr = new XMLHttpRequest();
+                xhr.open('DELETE', id, false);
+                xhr.send()
+                if (xhr.status == 200) {
+                    window.location.reload();
+                } else {
+                    alert('Произошла ошибка\n' + xhr.responseText);
                 }
             }
+        }
 
-            function remove_group(gr_id, gr_name) {
-                if(gr_id) {
-                    if (confirm('Подтвердите удаление группы ' + gr_name)) {
-                        let xhr = new XMLHttpRequest();
-                        xhr.open('DELETE', gr_id, false);
-                        xhr.send()
-                        if (xhr.status == 200) {
-                            window.location.reload(false);
-                        } else {
-                            alert('Произошла ошибка\n' + xhr.responseText);
-                        }
-                    }
-                }else return;
-          }
-          </script>
-    </form>
-  </div>
-
-  <div class="column is-half">
-    <form method="GET" action="">
-        <div class="columns">
-          <div class="column">
-            <div class="select block is-large is-fullwidth">
-              <select name="selected_group">
-                {% for group_name in group_names %}
-                  {% if selected_group[1] == group_name%}
-                    <option selected="selected">{{group_name}}</option>
-                  {% else %}
-                    <option>{{group_name}}</option>
-                  {% endif %}
-                {% endfor %}
-              </select>
-            </div>
-          </div>
-          <div class="column is-narrow">
-            <button type="submit" formmethod="GET" class="button is-block is-info is-large">Выбрать</button>
-          </div>
-            <div class="column is-narrow">
-              <button onclick="remove_group('{{ selected_group[0] }}', '{{ selected_group[1] }}')" type="submit" class="button is-block is-danger is-large">Удалить</button>
-            </div>
-        </div>
-  
-        <table class="table box">
-          <thead>
-              <tr>
-                  {% for col in header %}
-                  <th scope="col">{{ col }}</th>
-                  {% endfor %}
-              </tr>
-          </thead>
-          {% for row in rows1 %}
-          <tr>
-            {% if not func %}
-                {% for cell in row %}
-                <td>
-                    {% if row[0]==cell %}
-                      <label>{{row[0]}}</label>
-                    {% else %}
-                    {{ cell }}
-                    {% endif %}
-                </td>
-                {% endfor %}
-            {% else %}
-                {% for cell in func(row) %}
-                <td>
-                    {{ cell }}
-                </td>
-                {% endfor %}
-            {% endif %}
-            {% if not read_only %}
-                <td>
-                    <a href="{{ row[0] }}">📝</a>
-                </td>
-                <td>
-                  <a href="#" onclick="remove('{{ row[0] }}')">❌</a>
-                </td>
-          </td>
-              {% endif %}
-          </tr>
-          {% endfor %}
-        </table>
-      </div>
-    </form>
-</div>
+        function remove_group(gr_id, gr_name) {
+            if (gr_id) {
+                if (confirm('Подтвердите удаление группы ' + gr_name)) {
+                    let xhr = new XMLHttpRequest();
+                    xhr.open('DELETE', gr_id, false);
+                    xhr.send()
+                }
+            } else return false;
+        }
+    </script>
 {% endblock %}
 
 
