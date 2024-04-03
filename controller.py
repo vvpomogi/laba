@@ -6,6 +6,7 @@ import logging
 
 controller = Blueprint('controller', __name__)
 
+
 @controller.route('/controller', methods=['POST'])
 def controller_post():
     json_dict = request.get_json(force=True)

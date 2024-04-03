@@ -6,12 +6,12 @@ from werkzeug.security import generate_password_hash
 auth = Blueprint('auth', __name__)
 
 
-@auth.route('/')
+@auth.route('/', methods=['GET'])
 def index():
     return redirect(url_for('auth.login'))
 
 
-@auth.route('/login')
+@auth.route('/login', methods=['GET'])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('main.profile'))
@@ -20,7 +20,7 @@ def login():
 
 
 @auth.route('/login', methods=['POST'])
-def login_post():
+def do_login():
     email = request.form.get('email')
     password = request.form.get('password')
     remember = True if request.form.get('remember') else False
@@ -32,19 +32,20 @@ def login_post():
     return redirect(url_for('main.profile'))
 
 
-@auth.route('/signup')
+@auth.route('/signup', methods=['GET'])
 def signup():
     return render_template('signup.html')
 
 
 @auth.route('/signup', methods=['POST'])
-def signup_post():
+def do_signup():
     email = request.form.get('email')
     password = request.form.get('password')
     number = request.form.get('number')
     user = User.get_or_none(email=email)
     if user:
-        flash('<p class="notification is-danger">Email address already exists. Go to <a href="login">login page</a></p>')
+        flash(
+            '<p class="notification is-danger">Email address already exists. Go to <a href="login">login page</a></p>')
         return redirect(url_for('auth.signup'))
     User.create(email=email, password=generate_password_hash(password, method='pbkdf2'), number=number)
     return redirect(url_for('auth.login'))
