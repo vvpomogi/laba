@@ -150,6 +150,11 @@
                     let xhr = new XMLHttpRequest();
                     xhr.open('DELETE', gr_id, false);
                     xhr.send()
+                    if (xhr.status == 200) {
+                        window.location.reload();
+                    } else {
+                        alert('Произошла ошибка\n' + xhr.responseText);
+                    }
                 }
             } else return false;
         }

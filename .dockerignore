@@ -2,6 +2,6 @@
 __pycache__
 pg-data
 venv
+app
 docker-compose.yaml
-Dockerfile
 .env

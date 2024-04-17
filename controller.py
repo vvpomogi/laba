@@ -2,7 +2,6 @@ from ast import literal_eval
 from flask import Blueprint, request, jsonify
 from db import Controller, Statistic
 import datetime
-import logging
 
 controller = Blueprint('controller', __name__)
 
@@ -11,7 +10,6 @@ controller = Blueprint('controller', __name__)
 def controller_post():
     json_dict = request.get_json(force=True)
     guid = json_dict['guid']
-    logging.warning(guid)
     controller = Controller.get_or_none(Controller.id == guid)
     if controller:
         stats = json_dict['stats']
