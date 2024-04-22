@@ -5,3 +5,4 @@ venv
 app
 docker-compose.yaml
 .env
+.env.example
