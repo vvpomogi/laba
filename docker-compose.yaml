@@ -35,5 +35,19 @@ services:
     container_name: Greenhouse2-grafana
     image: grafana/grafana-oss
     restart: unless-stopped
+    environment:
+      - GF_SERVER_ROOT_URL=http://localhost/grafana/
+      - GF_SERVER_SERVE_FROM_SUB_PATH=true
     ports:
       - "3000:3000"
+    depends_on:
+      - db
+
+  nginx:
+    container_name: Greenhouse2-nginx
+    build: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+      - grafana

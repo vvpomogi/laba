@@ -3,6 +3,7 @@ __pycache__
 pg-data
 venv
 app
+nginx
 docker-compose.yaml
 .env
 .env.example
