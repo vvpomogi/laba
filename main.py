@@ -110,7 +110,7 @@ def get_sensor(id=None):
             form = get_form(controller)
             fig = px.line(df, y="Показания", x="Время", title='Показания с контроллера')
             graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-            return render_template('edit.html', form=form, graphJSON=graphJSON)
+            return render_template('edit.html', form=form, graphJSON=graphJSON, controllerid=controller.id)
 
 
 @main.route('/profile/<uuid:id>', methods=['POST'])

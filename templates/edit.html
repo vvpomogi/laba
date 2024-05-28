@@ -45,11 +45,14 @@
         </div>
 
         <div class="column box">
+            <iframe style="width: 100%; height: 100%" src="http://localhost/grafana/d-solo/bdj1akpvczc3ke/controllers?orgId=1&var-controller={{ controllerid }}&panelId=1"></iframe>
+            <!--
             <div id="chart" class="chart"></div>
             <script type="text/javascript">
                 var graphs = {{graphJSON | safe}};
                 Plotly.newPlot('chart', graphs, {})
             </script>
+            -->
         </div>
     </div>
 {% endblock %}
