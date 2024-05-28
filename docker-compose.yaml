@@ -1,7 +1,7 @@
 version: '3.11'
 services:
   app:
-    container_name: Greenhouse2-Main
+    container_name: Greenhouse2-app
     build:
       context: .
       dockerfile: app/Dockerfile
